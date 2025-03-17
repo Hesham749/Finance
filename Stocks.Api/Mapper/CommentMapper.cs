@@ -6,7 +6,7 @@ namespace Stocks.Api.Mapper
     public static class CommentMapper
     {
         //[MapProperty(nameof(comment.Stock.CompanyName), nameof(CommentDTO.StockCompany))]
-        public static CommentDTO CommentDtoFromComment(this Comment comment)
+        public static CommentDTO CommentDTOFromComment(this Comment comment)
         {
             return new CommentDTO
             {

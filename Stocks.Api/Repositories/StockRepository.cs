@@ -35,9 +35,9 @@ namespace Stocks.Api.Repositories
             res = res.Where(s => s.CompanyName.Contains(query.CompanyName) || string.IsNullOrWhiteSpace(query.CompanyName));
             int skipCount = (query.Page - 1) * query.PageSize;
             res = res.Skip(skipCount).Take(query.PageSize);
-
-            if (!string.IsNullOrWhiteSpace(query.OrderBy)
-                && typeof(Stock).GetProperty(query.OrderBy?.Trim()) is not null)
+            if (!string.IsNullOrWhiteSpace(query.OrderBy))
+                //todo
+                //&& typeof(Stock).GetProperty(query.OrderBy?.Trim(), BindingFlags.IgnoreCase) is not null)
             {
                 res = query.OrderDescending ? res.OrderByDescending(s => EF.Property<object>(s, query.OrderBy))
                     : res.OrderBy(s => EF.Property<object>(s, query.OrderBy));

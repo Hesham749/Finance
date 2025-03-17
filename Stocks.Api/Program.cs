@@ -1,6 +1,8 @@
 
 using System.Text;
+using System.Text.Json;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
@@ -83,12 +85,17 @@ namespace Stocks.Api
                 };
             });
 
+            builder.Services.AddControllers().AddNewtonsoftJson(op =>
+            {
+                op.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
+
 
             builder.Services.AddScoped<IStockRepository, StockRepository>();
             builder.Services.AddScoped<ICommentRepository, CommentRepository>();
             builder.Services.AddScoped<IStockMapper, StockMapper>();
             //builder.Services.AddScoped<ICommentMapper, CommentMapper>();
-            //builder.Services.
+
             var app = builder.Build();
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

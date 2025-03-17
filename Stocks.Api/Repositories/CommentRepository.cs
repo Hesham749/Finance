@@ -36,7 +36,9 @@ namespace Stocks.Api.Repositories
                     StringComparison.OrdinalIgnoreCase));
             }
 
-            var mappedComments = comments.Select(c => c.CommentDtoFromComment());
+            
+
+            var mappedComments = comments.Select(c => c.CommentDTOFromComment());
 
             var skipCount = (query.Page - 1) * query.PageSize;
             var pagedComments = mappedComments.Skip(skipCount).Take(query.PageSize);
