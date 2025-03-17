@@ -10,14 +10,15 @@ namespace Stocks.Api.Controllers
     public class StocksController : ControllerBase
     {
         readonly IStockRepository _stockRepo;
-
-        public StocksController(IStockRepository stockRepo)
+        readonly IStockMapper _stockMapper;
+        public StocksController(IStockRepository stockRepo, IStockMapper stockMapper)
         {
             _stockRepo = stockRepo;
+            _stockMapper = stockMapper;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] QueryObject query)
+        public async Task<IActionResult> GetAll([FromQuery] QueryObject query)
         {
             var res = await _stockRepo.GetAllAsync(query);
             if (!res.Any())
@@ -30,6 +31,31 @@ namespace Stocks.Api.Controllers
         {
             var stock = await _stockRepo.GetByIdAsync(id);
             return stock is null ? NotFound($"No stock with id {id}") : Ok(stock);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Create([FromBody] CreateStockDTO dto)
+        {
+            var stock = await _stockRepo.CreateAsync(_stockMapper.StockFromCreateStockDTO(dto));
+            return CreatedAtAction(nameof(Get), new { stock.Id }, stock);
+        }
+
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult> Update([FromRoute] int id, [FromBody] UpdateStockDTO dto)
+        {
+            var stock = await _stockRepo.UpdateAsync(id, dto);
+            if (stock is null)
+                return NotFound($"No stock with id {id}");
+            return Ok(stock);
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult> Delete([FromRoute] int id)
+        {
+            var stock = await _stockRepo.DeleteAsync(id);
+            if (stock is null)
+                return NotFound($"No stock with id {id}");
+            return Ok(stock);
         }
     }
 }

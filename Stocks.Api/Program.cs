@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using Stocks.Api.Mapper;
 
 namespace Stocks.Api
 {
@@ -85,6 +86,7 @@ namespace Stocks.Api
 
             builder.Services.AddScoped<IStockRepository, StockRepository>();
             builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+            builder.Services.AddScoped<IStockMapper, StockMapper>();
             //builder.Services.
             var app = builder.Build();
             // Configure the HTTP request pipeline.

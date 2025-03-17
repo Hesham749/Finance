@@ -1,10 +1,7 @@
-﻿
-namespace Stocks.Api.Models
+﻿namespace Stocks.Api.DTOs.Stock
 {
-    [Table("Stocks")]
-    public class Stock
+    public class CreateStockDTO
     {
-        public int Id { get; set; }
 
         [Required, StringLength(255)]
         public string Symbol { get; set; }
@@ -22,7 +19,5 @@ namespace Stocks.Api.Models
         public string Industry { get; set; }
 
         public long MarketCap { get; set; }
-
-        public List<Comment> Comments { get; set; } = [];
     }
 }

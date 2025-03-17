@@ -9,4 +9,4 @@ global using Stocks.Api.Repositories;
 global using Stocks.Api.Data;
 global using Stocks.Api.Interfaces;
 global using Riok.Mapperly.Abstractions;
-
+global using Stocks.Api.DTOs.Stock;
