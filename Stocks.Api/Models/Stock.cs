@@ -1,5 +1,4 @@
 ﻿
-
 namespace Stocks.Api.Models
 {
     [Table("Stocks")]
@@ -12,10 +11,8 @@ namespace Stocks.Api.Models
 
         [Required, StringLength(255)]
         public string CompanyName { get; set; }
-
         [Column(TypeName = "decimal(18,2)")]
         public decimal Purchase { get; set; }
-
         [Column(TypeName = "decimal(18,2)")]
         public decimal LastDiv { get; set; }
 

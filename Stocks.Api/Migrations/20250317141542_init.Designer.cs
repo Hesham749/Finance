@@ -12,7 +12,7 @@ using Stocks.Api.Data;
 namespace Stocks.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250317111552_init")]
+    [Migration("20250317141542_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -50,6 +50,22 @@ namespace Stocks.Api.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "97d784d1-d212-4c28-815f-e4b00c5f85e3",
+                            ConcurrencyStamp = "97d784d1-d212-4c28-815f-e4b00c5f85e3",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        },
+                        new
+                        {
+                            Id = "3a97653a-9b3b-42e1-b158-7922a30e3f08",
+                            ConcurrencyStamp = "3a97653a-9b3b-42e1-b158-7922a30e3f08",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -3,8 +3,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Stocks.Api.Data;
-using Stocks.Api.Models;
+using Newtonsoft.Json;
 
 namespace Stocks.Api
 {
@@ -82,6 +81,10 @@ namespace Stocks.Api
                     ValidateLifetime = true,
                 };
             });
+
+
+            builder.Services.AddScoped<IStockRepository, StockRepository>();
+            builder.Services.AddScoped<ICommentRepository, CommentRepository>();
             //builder.Services.
             var app = builder.Build();
             // Configure the HTTP request pipeline.
