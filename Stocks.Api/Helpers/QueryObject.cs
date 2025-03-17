@@ -6,6 +6,5 @@
         public int PageSize { get; set; } = 20;
         public bool OrderDescending { get; set; }
         public string OrderBy { get; set; }
-        public string CompanyName { get; set; }
     }
 }

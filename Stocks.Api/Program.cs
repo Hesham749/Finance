@@ -87,6 +87,7 @@ namespace Stocks.Api
             builder.Services.AddScoped<IStockRepository, StockRepository>();
             builder.Services.AddScoped<ICommentRepository, CommentRepository>();
             builder.Services.AddScoped<IStockMapper, StockMapper>();
+            //builder.Services.AddScoped<ICommentMapper, CommentMapper>();
             //builder.Services.
             var app = builder.Build();
             // Configure the HTTP request pipeline.

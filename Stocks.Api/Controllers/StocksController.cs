@@ -18,7 +18,7 @@ namespace Stocks.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] QueryObject query)
+        public async Task<IActionResult> GetAll([FromQuery] StockQueryObject query)
         {
             var res = await _stockRepo.GetAllAsync(query);
             if (!res.Any())

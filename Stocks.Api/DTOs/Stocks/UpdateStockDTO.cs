@@ -1,4 +1,4 @@
-﻿namespace Stocks.Api.DTOs.Stock
+﻿namespace Stocks.Api.DTOs.Stocks
 {
     public class UpdateStockDTO
     {

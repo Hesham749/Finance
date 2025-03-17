@@ -29,7 +29,7 @@ namespace Stocks.Api.Repositories
             return stock;
         }
 
-        public async Task<IEnumerable<Stock>> GetAllAsync([FromQuery] QueryObject query)
+        public async Task<IEnumerable<Stock>> GetAllAsync([FromQuery] StockQueryObject query)
         {
             var res = _context.Stocks.Include(s => s.Comments).AsQueryable();
             res = res.Where(s => s.CompanyName.Contains(query.CompanyName) || string.IsNullOrWhiteSpace(query.CompanyName));
