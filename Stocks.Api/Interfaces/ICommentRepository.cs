@@ -5,9 +5,9 @@ namespace Stocks.Api.Interfaces
     public interface ICommentRepository
     {
         Task<IEnumerable<CommentDTO>> GetAllAsync(CommentQueryObject query);
-        Task<Comment> GetByIdAsync(int id);
-        Task<Comment> CreateAsync(Comment Comment);
-        //Task<Comment> UpdateAsync(int id, UpdateCommentDTO dto);
-        Task<Comment> DeleteAsync(int id);
+        Task<CommentDTO> GetByIdAsync(int id);
+        Task<CommentDTO> CreateAsync(Comment Comment);
+        Task<CommentDTO> UpdateAsync(int id, UpdateCommentDTO dto);
+        Task<CommentDTO> DeleteAsync(int id);
     }
 }

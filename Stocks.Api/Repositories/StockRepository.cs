@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace Stocks.Api.Repositories
 {
@@ -36,8 +35,8 @@ namespace Stocks.Api.Repositories
             int skipCount = (query.Page - 1) * query.PageSize;
             res = res.Skip(skipCount).Take(query.PageSize);
             if (!string.IsNullOrWhiteSpace(query.OrderBy))
-                //todo
-                //&& typeof(Stock).GetProperty(query.OrderBy?.Trim(), BindingFlags.IgnoreCase) is not null)
+            //todo
+            //&& typeof(Stock).GetProperty(query.OrderBy?.Trim(), BindingFlags.IgnoreCase) is not null)
             {
                 res = query.OrderDescending ? res.OrderByDescending(s => EF.Property<object>(s, query.OrderBy))
                     : res.OrderBy(s => EF.Property<object>(s, query.OrderBy));
@@ -50,6 +49,8 @@ namespace Stocks.Api.Repositories
         public async Task<Stock> GetByIdAsync(int id)
             => await _context.Stocks.Include(s => s.Comments).FirstOrDefaultAsync(s => s.Id == id);
 
+        public async Task<bool> StockExist(int id)
+            => await _context.Stocks.AnyAsync(s => s.Id == id);
 
         public async Task<Stock> UpdateAsync(int id, UpdateStockDTO dto)
         {

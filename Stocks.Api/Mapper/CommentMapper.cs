@@ -13,9 +13,19 @@ namespace Stocks.Api.Mapper
                 Id = comment.Id,
                 Content = comment.Content,
                 CreatedOn = comment.CreatedOn,
-                StockCompany = comment.Stock.CompanyName,
-                StockId = comment.Stock.Id,
+                StockCompany = comment.Stock?.CompanyName,
+                StockId = comment.StockId,
                 Title = comment.Title
+            };
+        }
+
+        public static Comment CommentFromCreateCommentDTO(this CreateCommentDTO dto)
+        {
+            return new Comment
+            {
+                Content = dto.Content,
+                Title = dto.Title,
+                StockId = dto.StockId
             };
         }
     }

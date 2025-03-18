@@ -1,6 +1,4 @@
-﻿
-using System.Reflection;
-using Stocks.Api.DTOs.Comments;
+﻿using Stocks.Api.DTOs.Comments;
 using Stocks.Api.Mapper;
 
 namespace Stocks.Api.Repositories
@@ -15,14 +13,21 @@ namespace Stocks.Api.Repositories
             _context = context;
         }
 
-        public Task<Comment> CreateAsync(Comment Comment)
+        public async Task<CommentDTO> CreateAsync(Comment Comment)
         {
-            throw new NotImplementedException();
+            //var 
+            await _context.AddAsync(Comment);
+            await _context.SaveChangesAsync();
+            return Comment.CommentDTOFromComment();
         }
 
-        public Task<Comment> DeleteAsync(int id)
+        public async Task<CommentDTO> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var res = await _context.Comments.FirstOrDefaultAsync(c => c.Id == id);
+            if (res is null) return null;
+            _context.Remove(res);
+            await _context.SaveChangesAsync();
+            return res.CommentDTOFromComment();
         }
 
         public async Task<IEnumerable<CommentDTO>> GetAllAsync(CommentQueryObject query)
@@ -36,7 +41,7 @@ namespace Stocks.Api.Repositories
                     StringComparison.OrdinalIgnoreCase));
             }
 
-            
+
 
             var mappedComments = comments.Select(c => c.CommentDTOFromComment());
 
@@ -46,7 +51,15 @@ namespace Stocks.Api.Repositories
             return await pagedComments.ToListAsync();
         }
 
-        public Task<Comment> GetByIdAsync(int id)
+        public async Task<CommentDTO> GetByIdAsync(int id)
+        {
+            var res = await _context.Comments.Include(c => c.Stock)
+                .Select(c => c.CommentDTOFromComment())
+                .FirstOrDefaultAsync(c => c.Id == id);
+            return res;
+        }
+
+        public Task<CommentDTO> UpdateAsync(int id, UpdateCommentDTO dto)
         {
             throw new NotImplementedException();
         }
