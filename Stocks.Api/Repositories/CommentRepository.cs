@@ -42,11 +42,18 @@ namespace Stocks.Api.Repositories
             }
 
             query.PageSize = Math.Min(query.PageSize, 50);
-
-            var mappedComments = comments.CommentDTOFromComment();
-
             var skipCount = (query.Page - 1) * query.PageSize;
-            var pagedComments = mappedComments.Skip(skipCount).Take(query.PageSize);
+
+            var pagedComments = comments.Skip(skipCount)
+                                .Take(query.PageSize)
+                                 .CommentDTOFromComment();
+            if (!string.IsNullOrWhiteSpace(query.OrderBy))
+            //todo
+            //&& typeof(Stock).GetProperty(query.OrderBy?.Trim(), BindingFlags.IgnoreCase) is not null)
+            {
+                pagedComments = query.OrderDescending ? pagedComments.OrderByDescending(s => EF.Property<object>(s, query.OrderBy))
+                    : pagedComments.OrderBy(s => EF.Property<object>(s, query.OrderBy));
+            }
 
             return await pagedComments.ToListAsync();
         }
