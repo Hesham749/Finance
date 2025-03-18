@@ -33,6 +33,7 @@ namespace Stocks.Api.Repositories
             var res = _context.Stocks.Include(s => s.Comments).AsQueryable();
             res = res.Where(s => s.CompanyName.Contains(query.CompanyName) || string.IsNullOrWhiteSpace(query.CompanyName));
             int skipCount = (query.Page - 1) * query.PageSize;
+            query.PageSize = Math.Min(query.PageSize, 50);
             res = res.Skip(skipCount).Take(query.PageSize);
             if (!string.IsNullOrWhiteSpace(query.OrderBy))
             //todo

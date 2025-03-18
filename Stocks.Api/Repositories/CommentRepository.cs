@@ -41,9 +41,9 @@ namespace Stocks.Api.Repositories
                     StringComparison.OrdinalIgnoreCase));
             }
 
+            query.PageSize = Math.Min(query.PageSize, 50);
 
-
-            var mappedComments = comments.Select(c => c.CommentDTOFromComment());
+            var mappedComments = comments.CommentDTOFromComment();
 
             var skipCount = (query.Page - 1) * query.PageSize;
             var pagedComments = mappedComments.Skip(skipCount).Take(query.PageSize);
@@ -53,10 +53,21 @@ namespace Stocks.Api.Repositories
 
         public async Task<CommentDTO> GetByIdAsync(int id)
         {
-            var res = await _context.Comments.Include(c => c.Stock)
-                .Select(c => c.CommentDTOFromComment())
-                .FirstOrDefaultAsync(c => c.Id == id);
-            return res;
+            var comment = await _context.Comments
+                .Where(c => c.Id == id)
+                .CommentDTOFromComment()
+                //.Select(c => new CommentDTO
+                //{
+                //    Content = c.Content,
+                //    CreatedOn = c.CreatedOn,
+                //    Id = c.Id,
+                //    StockCompany = c.Stock.CompanyName,
+                //    StockId = c.StockId,
+                //    Title = c.Title
+                //})
+                .FirstOrDefaultAsync();
+
+            return comment;
         }
 
         public Task<CommentDTO> UpdateAsync(int id, UpdateCommentDTO dto)

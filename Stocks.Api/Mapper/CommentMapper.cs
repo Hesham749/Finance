@@ -13,10 +13,23 @@ namespace Stocks.Api.Mapper
                 Id = comment.Id,
                 Content = comment.Content,
                 CreatedOn = comment.CreatedOn,
-                StockCompany = comment.Stock?.CompanyName,
+                StockCompany = comment.Stock.CompanyName,
                 StockId = comment.StockId,
                 Title = comment.Title
             };
+        }
+
+        public static IQueryable<CommentDTO> CommentDTOFromComment(this IQueryable<Comment> comment)
+        {
+            return comment.Select(c => new CommentDTO
+            {
+                Content = c.Content,
+                CreatedOn = c.CreatedOn,
+                Id = c.Id,
+                StockCompany = c.Stock.CompanyName,
+                StockId = c.StockId,
+                Title = c.Title
+            });
         }
 
         public static Comment CommentFromCreateCommentDTO(this CreateCommentDTO dto)

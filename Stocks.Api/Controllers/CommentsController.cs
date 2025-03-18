@@ -41,8 +41,7 @@ namespace Stocks.Api.Controllers
             var existStock = await _StockRepo.StockExist(dto.StockId);
             if (!existStock) return BadRequest("Stock doesn't exists");
             var comment = await _commentRepo.CreateAsync(dto.CommentFromCreateCommentDTO());
-            return Ok(comment);
-            //return CreatedAtAction(nameof(Get), new { comment.Id }, comment);
+            return CreatedAtAction(nameof(Get), new { comment.Id }, comment);
         }
 
 
