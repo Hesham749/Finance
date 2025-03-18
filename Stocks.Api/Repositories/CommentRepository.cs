@@ -32,7 +32,7 @@ namespace Stocks.Api.Repositories
 
         public async Task<IEnumerable<CommentDTO>> GetAllAsync(CommentQueryObject query)
         {
-            var comments = _context.Comments.Include(c => c.Stock).AsQueryable();
+            var comments = _context.Comments.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(query.CompanyName))
             {
@@ -54,18 +54,8 @@ namespace Stocks.Api.Repositories
         public async Task<CommentDTO> GetByIdAsync(int id)
         {
             var comment = await _context.Comments
-                .Where(c => c.Id == id)
                 .CommentDTOFromComment()
-                //.Select(c => new CommentDTO
-                //{
-                //    Content = c.Content,
-                //    CreatedOn = c.CreatedOn,
-                //    Id = c.Id,
-                //    StockCompany = c.Stock.CompanyName,
-                //    StockId = c.StockId,
-                //    Title = c.Title
-                //})
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(c => c.Id == id);
 
             return comment;
         }

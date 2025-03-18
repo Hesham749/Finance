@@ -23,9 +23,9 @@ namespace Stocks.Api.Mapper
         {
             return comment.Select(c => new CommentDTO
             {
+                Id = c.Id,
                 Content = c.Content,
                 CreatedOn = c.CreatedOn,
-                Id = c.Id,
                 StockCompany = c.Stock.CompanyName,
                 StockId = c.StockId,
                 Title = c.Title
