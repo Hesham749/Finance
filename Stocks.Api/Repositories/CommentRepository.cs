@@ -67,9 +67,15 @@ namespace Stocks.Api.Repositories
             return comment;
         }
 
-        public Task<CommentDTO> UpdateAsync(int id, UpdateCommentDTO dto)
+        public async Task<CommentDTO> UpdateAsync(int id, UpdateCommentDTO dto)
         {
-            throw new NotImplementedException();
+            var comment = await _context.Comments.FindAsync(id);
+            if (comment == null) return null;
+
+            comment.Title = dto.Title ?? comment.Title;
+            comment.Content = dto.Content ?? comment.Content;
+            await _context.SaveChangesAsync();
+            return comment.CommentDTOFromComment();
         }
     }
 }

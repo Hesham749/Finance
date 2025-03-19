@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Stocks.Api.DTOs.Comments;
 using Stocks.Api.Mapper;
 
@@ -45,6 +46,15 @@ namespace Stocks.Api.Controllers
         }
 
 
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateCommentDTO dto)
+        {
+            var res = await _commentRepo.UpdateAsync(id, dto);
+            if (res is null) return NotFound($"comment with id {id} not found");
+            return Ok(res);
+        }
+
+
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete([FromRoute] int id)
         {
@@ -53,5 +63,8 @@ namespace Stocks.Api.Controllers
 
             return Ok(comment);
         }
+
+
+
     }
 }
