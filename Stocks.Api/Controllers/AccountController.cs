@@ -3,15 +3,15 @@ using Stocks.Api.DTOs.Account;
 
 namespace Stocks.Api.Controllers
 {
-    [Route("api/accounts")]
+    [Route("api/account")]
     [ApiController]
     [Produces("application/json")]
     [Consumes("application/json")]
-    public class AccountsController : ControllerBase
+    public class AccountController : ControllerBase
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly ITokenService _tokenService;
-        public AccountsController(UserManager<AppUser> userManager, ITokenService tokenService)
+        public AccountController(UserManager<AppUser> userManager, ITokenService tokenService)
         {
             _userManager = userManager;
             _tokenService = tokenService;

@@ -9,14 +9,26 @@ namespace Stocks.Api.Repositories
             _context = context;
         }
 
-        public async Task<Portfolio> CreateAsync(string userId, int stockId)
+        public async Task<Portfolio> CreateAsync(Portfolio portfolio)
         {
-            var HasPortfolio = await _context.Portfolios.AnyAsync(p => p.StockId == stockId && p.AppUserId == userId);
-            if (HasPortfolio) return null;
-            var createdPortfolio = new Portfolio { AppUserId = userId, StockId = stockId };
-            await _context.AddAsync(createdPortfolio);
+
+            try
+            {
+                await _context.AddAsync(portfolio);
+                await _context.SaveChangesAsync();
+                return portfolio;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        public async Task<Portfolio> DeleteAsync(Portfolio portfolio)
+        {
+            _context.Remove(portfolio);
             await _context.SaveChangesAsync();
-            return createdPortfolio;
+            return portfolio;
         }
 
         public async Task<IEnumerable<Stock>> GetUserPortfolio(string userId)
@@ -32,6 +44,12 @@ namespace Stocks.Api.Repositories
                      Symbol = p.Stock.Symbol,
                      MarketCap = p.Stock.MarketCap,
                  }).ToListAsync();
+        }
+
+        public async Task<bool> PortfolioExist(Portfolio portfolio)
+        {
+            return await _context.Portfolios
+                .AnyAsync(p => p.StockId == portfolio.StockId && p.AppUserId == portfolio.AppUserId);
         }
     }
 }

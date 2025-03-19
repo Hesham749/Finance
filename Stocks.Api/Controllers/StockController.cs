@@ -2,15 +2,15 @@
 
 namespace Stocks.Api.Controllers
 {
-    [Route("api/Stocks")]
+    [Route("api/Stock")]
     [Produces("application/json")]
     [Consumes("application/json")]
     [ApiController]
-    public class StocksController : ControllerBase
+    public class StockController : ControllerBase
     {
         readonly IStockRepository _stockRepo;
         readonly IStockMapper _stockMapper;
-        public StocksController(IStockRepository stockRepo, IStockMapper stockMapper)
+        public StockController(IStockRepository stockRepo, IStockMapper stockMapper)
         {
             _stockRepo = stockRepo;
             _stockMapper = stockMapper;

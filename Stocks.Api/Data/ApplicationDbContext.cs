@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Stocks.Api.Models;
-
-namespace Stocks.Api.Data
+﻿namespace Stocks.Api.Data
 {
     public class ApplicationDbContext : IdentityDbContext<AppUser>
     {
@@ -26,7 +23,9 @@ namespace Stocks.Api.Data
                 .HasData(roles);
 
             builder.Entity<Portfolio>().HasKey(p => new { p.StockId, p.AppUserId });
-            
+            builder.Entity<Stock>()
+                .HasIndex(s => s.Symbol);
+
         }
 
     }

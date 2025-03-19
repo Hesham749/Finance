@@ -3,6 +3,8 @@
     public interface IPortfolioRepository
     {
         Task<IEnumerable<Stock>> GetUserPortfolio(string userId);
-        Task<Portfolio> CreateAsync(string userId, int stockId);
+        Task<Portfolio> CreateAsync(Portfolio portfolio);
+        Task<Portfolio> DeleteAsync(Portfolio portfolio);
+        Task<bool> PortfolioExist(Portfolio portfolio);
     }
 }

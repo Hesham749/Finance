@@ -4,16 +4,16 @@ using Stocks.Api.DTOs.Comments;
 
 namespace Stocks.Api.Controllers
 {
-    [Route("api/Comments")]
+    [Route("api/Comment")]
     [ApiController]
     [Produces("application/json")]
     [Consumes("application/json")]
-    public class CommentsController : ControllerBase
+    public class CommentController : ControllerBase
     {
         private readonly ICommentRepository _commentRepo;
         private readonly IStockRepository _StockRepo;
 
-        public CommentsController(ICommentRepository commentRepository, IStockRepository stockRepo)
+        public CommentController(ICommentRepository commentRepository, IStockRepository stockRepo)
         {
             _commentRepo = commentRepository;
             _StockRepo = stockRepo;
