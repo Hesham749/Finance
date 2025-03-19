@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
-using Stocks.Api.Mapper;
+
 
 namespace Stocks.Api
 {
@@ -92,7 +92,7 @@ namespace Stocks.Api
             builder.Services.AddScoped<IStockRepository, StockRepository>();
             builder.Services.AddScoped<ICommentRepository, CommentRepository>();
             builder.Services.AddScoped<IStockMapper, StockMapper>();
-            //builder.Services.AddScoped<ICommentMapper, CommentMapper>();
+            builder.Services.AddScoped<ITokenService, TokenService>();
 
             var app = builder.Build();
             // Configure the HTTP request pipeline.

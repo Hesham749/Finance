@@ -1,6 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Text;
+using System.Text.Unicode;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Stocks.Api.DTOs.Account;
 
 namespace Stocks.Api.Controllers
@@ -11,9 +15,11 @@ namespace Stocks.Api.Controllers
     public class AccountController : ControllerBase
     {
         private readonly UserManager<AppUser> _userManager;
-        public AccountController(UserManager<AppUser> userManager)
+        private readonly ITokenService _tokenService;
+        public AccountController(UserManager<AppUser> userManager, ITokenService tokenService)
         {
             _userManager = userManager;
+            _tokenService = tokenService;
         }
 
         [HttpPost("register")]
@@ -33,7 +39,12 @@ namespace Stocks.Api.Controllers
                 {
                     var addRole = await _userManager.AddToRoleAsync(appUser, "User");
                     if (addRole.Succeeded)
-                        return Ok("User created");
+                        return Ok(new NewUserDTO
+                        {
+                            UserName = registerDTO.UserName,
+                            Email = registerDTO.Email,
+                            Token = _tokenService.CreateToken(appUser)
+                        });
                     else
                         return StatusCode(StatusCodes.Status500InternalServerError, addRole.Errors);
                 }
@@ -44,6 +55,19 @@ namespace Stocks.Api.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
+        }
+
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginDTO loginDTO)
+        {
+            var appUser = await _userManager.FindByNameAsync(loginDTO.UserName);
+            if (!await _userManager.CheckPasswordAsync(appUser, loginDTO.Password))
+                return BadRequest($"UserName or password incorrect!");
+
+            return Ok(_tokenService.CreateToken(appUser));
+
+
         }
     }
 }

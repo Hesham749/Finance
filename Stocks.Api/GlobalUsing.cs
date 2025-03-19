@@ -11,3 +11,5 @@ global using Riok.Mapperly.Abstractions;
 global using Stocks.Api.DTOs;
 global using Stocks.Api.Models;
 global using Stocks.Api.DTOs.Stocks;
+global using Stocks.Api.Mapper;
+global using Stocks.Api.Services;
