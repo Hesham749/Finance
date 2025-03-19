@@ -70,19 +70,20 @@ namespace Stocks.Api
                 op.Password.RequireNonAlphanumeric = false;
             }).AddEntityFrameworkStores<ApplicationDbContext>();
 
-            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(op =>
-            {
-                op.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidIssuer = builder.Configuration["JWT:Issuer"],
-                    ValidateAudience = true,
-                    ValidAudience = builder.Configuration["JWT:Audience"],
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"])),
-                    ValidateLifetime = true,
-                };
-            });
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(op =>
+                    {
+                        op.TokenValidationParameters = new TokenValidationParameters
+                        {
+                            ValidateIssuer = true,
+                            ValidIssuer = builder.Configuration["JWT:Issuer"],
+                            ValidateAudience = true,
+                            ValidAudience = builder.Configuration["JWT:Audience"],
+                            ValidateIssuerSigningKey = true,
+                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"])),
+                            ValidateLifetime = true,
+                        };
+                    });
 
             builder.Services.AddControllers().AddNewtonsoftJson(op =>
             {
