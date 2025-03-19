@@ -35,7 +35,7 @@ namespace Stocks.Api
                     Name = "Authorization",
                     Description = "Enter you jwt token",
                     In = Microsoft.OpenApi.Models.ParameterLocation.Header,
-                    Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey,
+                    Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
                     BearerFormat = "JWT",
                     Scheme = JwtBearerDefaults.AuthenticationScheme
                 });

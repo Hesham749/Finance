@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Stocks.Api.DTOs.Comments;
 using Stocks.Api.Mapper;
@@ -8,6 +9,7 @@ namespace Stocks.Api.Controllers
     [Route("api/Comments")]
     [ApiController]
     [Produces("application/json")]
+    
     public class CommentsController : ControllerBase
     {
         private readonly ICommentRepository _commentRepo;
@@ -28,6 +30,7 @@ namespace Stocks.Api.Controllers
             return Ok(res);
         }
 
+        [Authorize]
         [HttpGet("{id:int}")]
         public async Task<ActionResult> Get([FromRoute] int id)
         {

@@ -63,9 +63,14 @@ namespace Stocks.Api.Controllers
         {
             var appUser = await _userManager.FindByNameAsync(loginDTO.UserName);
             if (!await _userManager.CheckPasswordAsync(appUser, loginDTO.Password))
-                return BadRequest($"UserName or password incorrect!");
+                return Unauthorized($"UserName or password incorrect!");
 
-            return Ok(_tokenService.CreateToken(appUser));
+            return Ok(new NewUserDTO
+            {
+                UserName = loginDTO.UserName,
+                Email = appUser.Email,
+                Token = _tokenService.CreateToken(appUser)
+            });
 
 
         }
