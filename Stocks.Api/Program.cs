@@ -27,8 +27,8 @@ namespace Stocks.Api
                     Title = "Stoks.Api",
                     Version = "v1",
                     Contact = new Microsoft.OpenApi.Models.OpenApiContact { Name = "Hesham", Email = "HeshamElsayedAhmed@outlock.com" }
-                }
-                );
+                });
+
 
                 op.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new Microsoft.OpenApi.Models.OpenApiSecurityScheme
                 {
@@ -38,8 +38,8 @@ namespace Stocks.Api
                     Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey,
                     BearerFormat = "JWT",
                     Scheme = JwtBearerDefaults.AuthenticationScheme
-                }
-                );
+                });
+
 
                 op.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
                 {
