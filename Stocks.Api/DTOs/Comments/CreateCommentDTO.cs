@@ -8,7 +8,5 @@
         [Required, MaxLength(255)]
         public string Content { get; set; }
 
-        public int StockId { get; set; }
-
     }
 }

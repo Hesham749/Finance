@@ -32,13 +32,13 @@ namespace Stocks.Api.Mapper
             });
         }
 
-        public static Comment CommentFromCreateCommentDTO(this CreateCommentDTO dto)
+        public static Comment CommentFromCreateCommentDTO(this CreateCommentDTO dto, int stockId)
         {
             return new Comment
             {
                 Content = dto.Content,
                 Title = dto.Title,
-                StockId = dto.StockId
+                StockId = stockId
             };
         }
     }

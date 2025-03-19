@@ -7,6 +7,7 @@ namespace Stocks.Api.Controllers
 {
     [Route("api/Comments")]
     [ApiController]
+    [Produces("application/json")]
     public class CommentsController : ControllerBase
     {
         private readonly ICommentRepository _commentRepo;
@@ -36,12 +37,11 @@ namespace Stocks.Api.Controllers
             return Ok(commentDto);
         }
 
-        [HttpPost]
-        public async Task<ActionResult> Create([FromBody] CreateCommentDTO dto)
+        [HttpPost("{stockId:int}")]
+        public async Task<ActionResult> Create([FromRoute] int stockId, [FromBody] CreateCommentDTO dto)
         {
-            var existStock = await _StockRepo.StockExist(dto.StockId);
-            if (!existStock) return BadRequest("Stock doesn't exists");
-            var comment = await _commentRepo.CreateAsync(dto.CommentFromCreateCommentDTO());
+            var comment = await _commentRepo.CreateAsync( dto.CommentFromCreateCommentDTO(stockId));
+            if (comment == null) return BadRequest("Stock doesn't exists");
             return CreatedAtAction(nameof(Get), new { comment.Id }, comment);
         }
 

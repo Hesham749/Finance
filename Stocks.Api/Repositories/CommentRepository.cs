@@ -15,7 +15,9 @@ namespace Stocks.Api.Repositories
 
         public async Task<CommentDTO> CreateAsync(Comment Comment)
         {
-            //var 
+            var existStock = await _context.Stocks.FindAsync(Comment.StockId);
+            if (existStock is null) return null;
+            Comment.Stock = existStock;
             await _context.AddAsync(Comment);
             await _context.SaveChangesAsync();
             return Comment.CommentDTOFromComment();
@@ -69,7 +71,7 @@ namespace Stocks.Api.Repositories
 
         public async Task<CommentDTO> UpdateAsync(int id, UpdateCommentDTO dto)
         {
-            var comment = await _context.Comments.FindAsync(id);
+            var comment = await _context.Comments.Include(c => c.Stock).FirstOrDefaultAsync(c => c.Id == id);
             if (comment == null) return null;
 
             comment.Title = dto.Title ?? comment.Title;
