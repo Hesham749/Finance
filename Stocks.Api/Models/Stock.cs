@@ -1,4 +1,5 @@
-﻿
+﻿using Newtonsoft.Json;
+
 namespace Stocks.Api.Models
 {
     [Table("Stocks")]
@@ -15,6 +16,7 @@ namespace Stocks.Api.Models
         [Column(TypeName = "decimal(18,2)")]
         public decimal Purchase { get; set; }
         [Column(TypeName = "decimal(18,2)")]
+        [JsonProperty("lastDiv")]
         public decimal LastDiv { get; set; }
 
         [Required, StringLength(255)]
@@ -22,7 +24,7 @@ namespace Stocks.Api.Models
 
         public long MarketCap { get; set; }
 
-        public List<Comment> Comments { get; set; } = [];
-        public List<Portfolio> Portfolios { get; set; } = [];
+        public List<Comment> Comments { get; set; }
+        public List<Portfolio> Portfolios { get; set; }
     }
 }

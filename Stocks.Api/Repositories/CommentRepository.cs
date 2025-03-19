@@ -1,5 +1,4 @@
 ﻿using Stocks.Api.DTOs.Comments;
-using Stocks.Api.Mapper;
 
 namespace Stocks.Api.Repositories
 {

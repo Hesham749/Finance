@@ -1,4 +1,6 @@
-﻿namespace Stocks.Api.DTOs.Stocks
+﻿using Newtonsoft.Json;
+
+namespace Stocks.Api.DTOs.Stocks
 {
     public class CreateStockDTO
     {
@@ -13,6 +15,7 @@
         public decimal Purchase { get; set; }
 
         [Column(TypeName = "decimal(18,2)")]
+        [JsonProperty("lastDiv")]
         public decimal LastDiv { get; set; }
 
         [Required, StringLength(255)]

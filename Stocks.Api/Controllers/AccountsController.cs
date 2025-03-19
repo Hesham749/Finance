@@ -1,22 +1,17 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Text;
-using System.Text.Unicode;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.AspNetCore.Mvc;
 using Stocks.Api.DTOs.Account;
 
 namespace Stocks.Api.Controllers
 {
-    [Route("api/account")]
+    [Route("api/accounts")]
     [ApiController]
     [Produces("application/json")]
-    public class AccountController : ControllerBase
+    [Consumes("application/json")]
+    public class AccountsController : ControllerBase
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly ITokenService _tokenService;
-        public AccountController(UserManager<AppUser> userManager, ITokenService tokenService)
+        public AccountsController(UserManager<AppUser> userManager, ITokenService tokenService)
         {
             _userManager = userManager;
             _tokenService = tokenService;

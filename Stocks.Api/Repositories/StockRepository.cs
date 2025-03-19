@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Stocks.Api.DTOs.Stock;
 
 namespace Stocks.Api.Repositories
 {
@@ -49,6 +50,13 @@ namespace Stocks.Api.Repositories
 
         public async Task<Stock> GetByIdAsync(int id)
             => await _context.Stocks.Include(s => s.Comments).FirstOrDefaultAsync(s => s.Id == id);
+
+        public async Task<PortfolioStockDTO> GetStockIdBySymbol(string symbol)
+        {
+            var stock = await _context.Stocks.Select(s => new PortfolioStockDTO { StockId = s.Id, Symbol = s.Symbol })
+                .FirstOrDefaultAsync(s => s.Symbol.ToLower() == symbol.ToLower());
+            return stock;
+        }
 
         public async Task<bool> StockExist(int id)
             => await _context.Stocks.AnyAsync(s => s.Id == id);

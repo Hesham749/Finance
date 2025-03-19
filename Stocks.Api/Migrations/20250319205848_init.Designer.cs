@@ -12,7 +12,7 @@ using Stocks.Api.Data;
 namespace Stocks.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250317141542_init")]
+    [Migration("20250319205848_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -270,6 +270,21 @@ namespace Stocks.Api.Migrations
                     b.ToTable("Comments");
                 });
 
+            modelBuilder.Entity("Stocks.Api.Models.Portfolio", b =>
+                {
+                    b.Property<int>("StockId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("StockId", "AppUserId");
+
+                    b.HasIndex("AppUserId");
+
+                    b.ToTable("Portfolio");
+                });
+
             modelBuilder.Entity("Stocks.Api.Models.Stock", b =>
                 {
                     b.Property<int>("Id")
@@ -367,9 +382,35 @@ namespace Stocks.Api.Migrations
                     b.Navigation("Stock");
                 });
 
+            modelBuilder.Entity("Stocks.Api.Models.Portfolio", b =>
+                {
+                    b.HasOne("Stocks.Api.Models.AppUser", "AppUser")
+                        .WithMany("Portfolios")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Stocks.Api.Models.Stock", "Stock")
+                        .WithMany("Portfolios")
+                        .HasForeignKey("StockId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("Stock");
+                });
+
+            modelBuilder.Entity("Stocks.Api.Models.AppUser", b =>
+                {
+                    b.Navigation("Portfolios");
+                });
+
             modelBuilder.Entity("Stocks.Api.Models.Stock", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("Portfolios");
                 });
 #pragma warning restore 612, 618
         }

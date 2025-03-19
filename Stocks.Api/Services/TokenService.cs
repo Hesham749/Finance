@@ -1,9 +1,8 @@
 ﻿
-using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Stocks.Api.Services
 {
@@ -21,8 +20,8 @@ namespace Stocks.Api.Services
             var claims = new List<Claim>
             {
                 new(ClaimTypes.NameIdentifier , user.Id),
-                new(JwtRegisteredClaimNames.GivenName , user.UserName),
-                new(JwtRegisteredClaimNames.Email , user.Email),
+                new(ClaimTypes.GivenName , user.UserName),
+                new(ClaimTypes.Email , user.Email),
                 // token generated id
                 new(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
             };

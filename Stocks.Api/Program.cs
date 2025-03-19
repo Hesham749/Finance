@@ -1,8 +1,6 @@
 
 using System.Text;
-using System.Text.Json;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
@@ -68,7 +66,17 @@ namespace Stocks.Api
                 op.Password.RequireNonAlphanumeric = false;
             }).AddEntityFrameworkStores<ApplicationDbContext>();
 
-            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            builder.Services.AddAuthentication(op =>
+            {
+                op.RequireAuthenticatedSignIn = true;
+                op.DefaultAuthenticateScheme =
+                op.DefaultSignInScheme =
+                op.DefaultSignOutScheme =
+                op.DefaultChallengeScheme =
+                op.DefaultForbidScheme =
+                op.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+
+            })
                 .AddJwtBearer(op =>
                     {
                         op.TokenValidationParameters = new TokenValidationParameters
@@ -86,6 +94,8 @@ namespace Stocks.Api
             builder.Services.AddControllers().AddNewtonsoftJson(op =>
             {
                 op.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                op.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+
             });
 
 
@@ -93,6 +103,7 @@ namespace Stocks.Api
             builder.Services.AddScoped<ICommentRepository, CommentRepository>();
             builder.Services.AddScoped<IStockMapper, StockMapper>();
             builder.Services.AddScoped<ITokenService, TokenService>();
+            builder.Services.AddScoped<IPortfolioRepository, PortfolioRepository>();
 
             var app = builder.Build();
             // Configure the HTTP request pipeline.

@@ -1,15 +1,13 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Stocks.Api.DTOs.Comments;
-using Stocks.Api.Mapper;
 
 namespace Stocks.Api.Controllers
 {
     [Route("api/Comments")]
     [ApiController]
     [Produces("application/json")]
-    
+    [Consumes("application/json")]
     public class CommentsController : ControllerBase
     {
         private readonly ICommentRepository _commentRepo;
@@ -43,7 +41,7 @@ namespace Stocks.Api.Controllers
         [HttpPost("{stockId:int}")]
         public async Task<ActionResult> Create([FromRoute] int stockId, [FromBody] CreateCommentDTO dto)
         {
-            var comment = await _commentRepo.CreateAsync( dto.CommentFromCreateCommentDTO(stockId));
+            var comment = await _commentRepo.CreateAsync(dto.CommentFromCreateCommentDTO(stockId));
             if (comment == null) return BadRequest("Stock doesn't exists");
             return CreatedAtAction(nameof(Get), new { comment.Id }, comment);
         }

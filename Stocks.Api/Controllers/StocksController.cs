@@ -1,11 +1,10 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace Stocks.Api.Controllers
 {
     [Route("api/Stocks")]
     [Produces("application/json")]
+    [Consumes("application/json")]
     [ApiController]
     public class StocksController : ControllerBase
     {
