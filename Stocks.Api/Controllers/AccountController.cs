@@ -71,8 +71,8 @@ namespace Stocks.Api.Controllers
                 Email = appUser.Email,
                 Token = _tokenService.CreateToken(appUser)
             });
-
-
         }
+
+
     }
 }

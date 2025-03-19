@@ -11,6 +11,7 @@ namespace Stocks.Api.Data
 
         public DbSet<Stock> Stocks { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Portfolio> Portfolios { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -23,6 +24,9 @@ namespace Stocks.Api.Data
             };
             builder.Entity<IdentityRole>()
                 .HasData(roles);
+
+            builder.Entity<Portfolio>().HasKey(p => new { p.StockId, p.AppUserId });
+            
         }
 
     }
