@@ -55,9 +55,7 @@ namespace Stocks.Api
                         new List<string>()
                     }
 
-                }
-
-                    );
+                });
 
             });
             builder.Services.AddDbContext<ApplicationDbContext>(op =>
