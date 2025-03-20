@@ -1,4 +1,6 @@
-﻿using Stocks.Api.DTOs.Comments;
+﻿using System.Linq.Dynamic.Core;
+using System.Reflection;
+using Stocks.Api.DTOs.Comments;
 
 namespace Stocks.Api.Repositories
 {
@@ -48,14 +50,16 @@ namespace Stocks.Api.Repositories
             var pagedComments = comments.Skip(skipCount)
                                 .Take(query.PageSize)
                                  .CommentDTOFromComment();
-            if (!string.IsNullOrWhiteSpace(query.OrderBy))
-            //todo
-            //&& typeof(Stock).GetProperty(query.OrderBy?.Trim(), BindingFlags.IgnoreCase) is not null)
-            {
-                pagedComments = query.OrderDescending ? pagedComments.OrderByDescending(s => EF.Property<object>(s, query.OrderBy))
-                    : pagedComments.OrderBy(s => EF.Property<object>(s, query.OrderBy));
-            }
 
+            var ordering = query.OrderDescending ? " descending" : string.Empty;
+            query.OrderBy = query.OrderBy?.Trim();
+
+            if (!string.IsNullOrWhiteSpace(query.OrderBy)
+            && typeof(CommentDTO).GetProperty(query.OrderBy, BindingFlags.IgnoreCase
+            | BindingFlags.Public | BindingFlags.Instance) is not null)
+                pagedComments = pagedComments.OrderBy(query.OrderBy + ordering);
+            else
+                pagedComments = query.OrderDescending ? pagedComments.OrderByDescending(c => c.Id) : pagedComments.OrderBy(c => c.Id);
             return await pagedComments.ToListAsync();
         }
 

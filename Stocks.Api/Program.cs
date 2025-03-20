@@ -94,8 +94,6 @@ namespace Stocks.Api
             builder.Services.AddControllers().AddNewtonsoftJson(op =>
             {
                 op.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                //op.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-
             });
 
 

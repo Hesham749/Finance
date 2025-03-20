@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Linq.Dynamic.Core;
+using System.Reflection;
+using Microsoft.AspNetCore.Mvc;
 using Stocks.Api.DTOs.Stock;
 
 namespace Stocks.Api.Repositories
@@ -32,20 +34,21 @@ namespace Stocks.Api.Repositories
         public async Task<IEnumerable<StockDTO>> GetAllAsync([FromQuery] StockQueryObject query)
         {
             var res = _context.Stocks.AsQueryable().StockDTOFromStock();
-            //.Include(s => s.Comments)
-            //.ThenInclude(c => c.AppUser).AsQueryable();
 
             res = res.Where(s => s.CompanyName.Contains(query.CompanyName) || string.IsNullOrWhiteSpace(query.CompanyName));
             int skipCount = (query.Page - 1) * query.PageSize;
             query.PageSize = Math.Min(query.PageSize, 50);
             res = res.Skip(skipCount).Take(query.PageSize);
-            if (!string.IsNullOrWhiteSpace(query.OrderBy))
-            //todo
-            //&& typeof(Stock).GetProperty(query.OrderBy?.Trim(), BindingFlags.IgnoreCase) is not null)
-            {
-                res = query.OrderDescending ? res.OrderByDescending(s => EF.Property<object>(s, query.OrderBy))
-                    : res.OrderBy(s => EF.Property<object>(s, query.OrderBy));
-            }
+
+            var ordering = query.OrderDescending ? " descending" : string.Empty;
+            query.OrderBy = query.OrderBy?.Trim();
+
+            if (!string.IsNullOrWhiteSpace(query.OrderBy)
+                && typeof(StockDTO).GetProperty(query.OrderBy, BindingFlags.IgnoreCase
+             | BindingFlags.Public | BindingFlags.Instance) is not null)
+                res = res.OrderBy(query.OrderBy + ordering);
+            else
+                res = (query.OrderDescending) ? res.OrderByDescending(s => s.Id) : res.OrderBy(s => s.Id);
 
             return await res.ToListAsync();
         }

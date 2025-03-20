@@ -9,11 +9,9 @@ namespace Stocks.Api.Controllers
     public class StockController : ControllerBase
     {
         readonly IStockRepository _stockRepo;
-        //readonly IStockMapper _stockMapper;
         public StockController(IStockRepository stockRepo)
         {
             _stockRepo = stockRepo;
-            //_stockMapper = stockMapper;
         }
 
         [HttpGet]

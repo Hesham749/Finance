@@ -16,7 +16,6 @@ namespace Stocks.Api.Models
         [Column(TypeName = "decimal(18,2)")]
         public decimal Purchase { get; set; }
         [Column(TypeName = "decimal(18,2)")]
-        [JsonProperty("lastDiv")]
         public decimal LastDiv { get; set; }
 
         [Required, StringLength(255)]

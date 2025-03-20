@@ -1,4 +1,5 @@
-﻿using Stocks.Api.DTOs.Comments;
+﻿using Newtonsoft.Json;
+using Stocks.Api.DTOs.Comments;
 
 namespace Stocks.Api.DTOs.Stock
 {
