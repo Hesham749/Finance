@@ -15,9 +15,15 @@ namespace Stocks.Api.Mapper
                 CreatedOn = comment.CreatedOn,
                 StockCompany = comment.Stock.CompanyName,
                 StockId = comment.StockId,
-                Title = comment.Title
+                Title = comment.Title,
+                CreatedBy = comment.AppUser.UserName,
             };
         }
+
+        //public static List<CommentDTO> CommentDTOFromComment (this List<Comment> comments)
+        //{
+
+        //}
 
         public static IQueryable<CommentDTO> CommentDTOFromComment(this IQueryable<Comment> comment)
         {
@@ -28,7 +34,9 @@ namespace Stocks.Api.Mapper
                 CreatedOn = c.CreatedOn,
                 StockCompany = c.Stock.CompanyName,
                 StockId = c.StockId,
-                Title = c.Title
+                Title = c.Title,
+                CreatedBy = c.AppUser.UserName
+
             });
         }
 
@@ -38,7 +46,9 @@ namespace Stocks.Api.Mapper
             {
                 Content = dto.Content,
                 Title = dto.Title,
-                StockId = stockId
+                StockId = stockId,
+
+
             };
         }
     }

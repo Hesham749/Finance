@@ -9,11 +9,11 @@ namespace Stocks.Api.Controllers
     public class StockController : ControllerBase
     {
         readonly IStockRepository _stockRepo;
-        readonly IStockMapper _stockMapper;
-        public StockController(IStockRepository stockRepo, IStockMapper stockMapper)
+        //readonly IStockMapper _stockMapper;
+        public StockController(IStockRepository stockRepo)
         {
             _stockRepo = stockRepo;
-            _stockMapper = stockMapper;
+            //_stockMapper = stockMapper;
         }
 
         [HttpGet]
@@ -35,7 +35,7 @@ namespace Stocks.Api.Controllers
         [HttpPost]
         public async Task<ActionResult> Create([FromBody] CreateStockDTO dto)
         {
-            var stock = await _stockRepo.CreateAsync(_stockMapper.StockFromCreateStockDTO(dto));
+            var stock = await _stockRepo.CreateAsync(dto.StockFromCreateStockDTO());
             return CreatedAtAction(nameof(Get), new { stock.Id }, stock);
         }
 

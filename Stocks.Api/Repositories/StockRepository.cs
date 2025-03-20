@@ -29,9 +29,12 @@ namespace Stocks.Api.Repositories
             return stock;
         }
 
-        public async Task<IEnumerable<Stock>> GetAllAsync([FromQuery] StockQueryObject query)
+        public async Task<IEnumerable<StockDTO>> GetAllAsync([FromQuery] StockQueryObject query)
         {
-            var res = _context.Stocks.Include(s => s.Comments).AsQueryable();
+            var res = _context.Stocks.AsQueryable().StockDTOFromStock();
+            //.Include(s => s.Comments)
+            //.ThenInclude(c => c.AppUser).AsQueryable();
+
             res = res.Where(s => s.CompanyName.Contains(query.CompanyName) || string.IsNullOrWhiteSpace(query.CompanyName));
             int skipCount = (query.Page - 1) * query.PageSize;
             query.PageSize = Math.Min(query.PageSize, 50);
@@ -49,7 +52,9 @@ namespace Stocks.Api.Repositories
 
 
         public async Task<Stock> GetByIdAsync(int id)
-            => await _context.Stocks.Include(s => s.Comments).FirstOrDefaultAsync(s => s.Id == id);
+            => await _context.Stocks.Include(s => s.Comments)
+            .ThenInclude(c => c.AppUser)
+            .FirstOrDefaultAsync(s => s.Id == id);
 
         public async Task<PortfolioStockDTO> GetStockIdBySymbol(string symbol)
         {

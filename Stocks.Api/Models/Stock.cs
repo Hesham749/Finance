@@ -24,7 +24,7 @@ namespace Stocks.Api.Models
 
         public long MarketCap { get; set; }
 
-        public List<Comment> Comments { get; set; }
-        public List<Portfolio> Portfolios { get; set; }
+        public List<Comment> Comments { get; set; } = [];
+        public List<Portfolio> Portfolios { get; set; } = [];
     }
 }

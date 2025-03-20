@@ -13,5 +13,6 @@
         public int? StockId { get; set; }
 
         public string StockCompany { get; set; }
+        public string CreatedBy { get; set; } = string.Empty;
     }
 }

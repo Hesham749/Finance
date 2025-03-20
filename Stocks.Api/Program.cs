@@ -94,14 +94,14 @@ namespace Stocks.Api
             builder.Services.AddControllers().AddNewtonsoftJson(op =>
             {
                 op.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                op.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                //op.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
 
             });
 
 
             builder.Services.AddScoped<IStockRepository, StockRepository>();
             builder.Services.AddScoped<ICommentRepository, CommentRepository>();
-            builder.Services.AddScoped<IStockMapper, StockMapper>();
+            //builder.Services.AddScoped<IStockMapper, StockMapper>();
             builder.Services.AddScoped<ITokenService, TokenService>();
             builder.Services.AddScoped<IPortfolioRepository, PortfolioRepository>();
 

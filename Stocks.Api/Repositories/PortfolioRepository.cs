@@ -1,4 +1,6 @@
-﻿
+﻿using Stocks.Api.DTOs.Comments;
+using Stocks.Api.DTOs.Stock;
+
 namespace Stocks.Api.Repositories
 {
     public class PortfolioRepository : IPortfolioRepository
@@ -31,11 +33,15 @@ namespace Stocks.Api.Repositories
             return portfolio;
         }
 
-        public async Task<IEnumerable<Stock>> GetUserPortfolio(string userId)
+        public async Task<IEnumerable<StockDTO>> GetUserPortfolio(string userId)
         {
             return await _context.Portfolios
                  .Where(p => p.AppUserId == userId)
-                 .Select(p => new Stock
+                 //.Include(p => p.Stock)
+                 //.ThenInclude(s => s.Comments)
+                 //.ThenInclude(c => c.AppUser)
+                 //.Include(c => c.Stock)
+                 .Select(p => new StockDTO
                  {
                      Id = p.StockId,
                      CompanyName = p.Stock.CompanyName,
@@ -43,6 +49,17 @@ namespace Stocks.Api.Repositories
                      LastDiv = p.Stock.LastDiv,
                      Symbol = p.Stock.Symbol,
                      MarketCap = p.Stock.MarketCap,
+                     Purchase = p.Stock.Purchase,
+                     Comments = p.Stock.Comments.Select(c => new CommentDTO
+                     {
+                         Content = c.Content,
+                         CreatedBy = c.AppUser.UserName,
+                         Id = c.Id,
+                         Title = c.Title,
+                         CreatedOn = c.CreatedOn,
+                         StockCompany = c.Stock.CompanyName,
+                         StockId = c.StockId
+                     }).ToList(),
                  }).ToListAsync();
         }
 
