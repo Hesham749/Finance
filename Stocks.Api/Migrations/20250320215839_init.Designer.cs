@@ -12,7 +12,7 @@ using Stocks.Api.Data;
 namespace Stocks.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250319205848_init")]
+    [Migration("20250320215839_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -247,6 +247,9 @@ namespace Stocks.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -264,6 +267,8 @@ namespace Stocks.Api.Migrations
                         .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
 
                     b.HasIndex("StockId");
 
@@ -318,6 +323,8 @@ namespace Stocks.Api.Migrations
                         .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Symbol");
 
                     b.ToTable("Stocks");
                 });
@@ -375,9 +382,15 @@ namespace Stocks.Api.Migrations
 
             modelBuilder.Entity("Stocks.Api.Models.Comment", b =>
                 {
+                    b.HasOne("Stocks.Api.Models.AppUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("AppUserId");
+
                     b.HasOne("Stocks.Api.Models.Stock", "Stock")
                         .WithMany("Comments")
                         .HasForeignKey("StockId");
+
+                    b.Navigation("AppUser");
 
                     b.Navigation("Stock");
                 });

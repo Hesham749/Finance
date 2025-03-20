@@ -22,6 +22,7 @@ namespace Stocks.Api.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAll([FromQuery] CommentQueryObject query)
         {
             var res = await _commentRepo.GetAllAsync(query);
@@ -30,7 +31,7 @@ namespace Stocks.Api.Controllers
             return Ok(res);
         }
 
-
+        [AllowAnonymous]
         [HttpGet("{id:int}")]
         public async Task<ActionResult> Get([FromRoute] int id)
         {

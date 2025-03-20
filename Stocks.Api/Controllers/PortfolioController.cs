@@ -8,6 +8,7 @@ namespace Stocks.Api.Controllers
     [ApiController]
     [Produces("application/json")]
     [Consumes("application/json")]
+    [Authorize]
     public class PortfolioController : ControllerBase
     {
         private readonly UserManager<AppUser> _userManager;
@@ -23,7 +24,6 @@ namespace Stocks.Api.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> GetUserPortfolio()
         {
             var UserId = User.GetUserId();
@@ -34,7 +34,6 @@ namespace Stocks.Api.Controllers
         }
 
         [HttpPost("{symbol}")]
-        [Authorize]
         public async Task<ActionResult> Create([FromRoute] string symbol)
         {
             var portfolioStockDTO = await _stockRepo.GetStockIdBySymbol(symbol);
@@ -53,7 +52,6 @@ namespace Stocks.Api.Controllers
         }
 
         [HttpDelete(("{symbol}"))]
-        [Authorize]
         public async Task<ActionResult> Delete(string symbol)
         {
             var portfolioStockDTO = await _stockRepo.GetStockIdBySymbol(symbol);
