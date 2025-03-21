@@ -1,0 +1,13 @@
+﻿global using Microsoft.AspNetCore.Identity;
+global using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+global using System.ComponentModel.DataAnnotations.Schema;
+global using Microsoft.EntityFrameworkCore;
+global using System.ComponentModel.DataAnnotations;
+global using Finance.Api.Helpers;
+global using Finance.Api.Repositories;
+global using Finance.Api.Data;
+global using Finance.Api.Interfaces;
+global using Finance.Api.Models;
+global using Finance.Api.DTOs.Stock;
+global using Finance.Api.Mapper;
+global using Finance.Api.Services;
