@@ -1,7 +1,6 @@
 ﻿using System.Linq.Dynamic.Core;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
-using Finance.Api.DTOs.Stock;
 
 namespace Finance.Api.Repositories
 {
@@ -37,7 +36,7 @@ namespace Finance.Api.Repositories
 
             res = res.Where(s => s.CompanyName.Contains(query.CompanyName) || string.IsNullOrWhiteSpace(query.CompanyName));
             int skipCount = (query.Page - 1) * query.PageSize;
-            query.PageSize = Math.Min(query.PageSize, 50);
+            query.PageSize = Math.Min(query.PageSize, 20);
             res = res.Skip(skipCount).Take(query.PageSize);
 
             var ordering = query.OrderDescending ? " descending" : string.Empty;

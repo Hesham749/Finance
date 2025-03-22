@@ -44,7 +44,7 @@ namespace Finance.Api.Repositories
                     StringComparison.OrdinalIgnoreCase));
             }
 
-            query.PageSize = Math.Min(query.PageSize, 50);
+            query.PageSize = Math.Min(query.PageSize, 20);
             var skipCount = (query.Page - 1) * query.PageSize;
 
             var pagedComments = comments.Skip(skipCount)
