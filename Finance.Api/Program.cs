@@ -20,26 +20,26 @@ namespace Finance.Api
             builder.Services.AddOpenApi();
             builder.Services.AddSwaggerGen(op =>
             {
-                op.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+                op.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "Finance.Api",
                     Version = "v1",
-                    Contact = new Microsoft.OpenApi.Models.OpenApiContact { Name = "Hesham", Email = "HeshamElsayedAhmed@outlock.com" }
+                    Contact = new OpenApiContact { Name = "Hesham", Email = "HeshamElsayedAhmed@outlock.com" }
                 });
 
 
-                op.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+                op.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
                     Description = "Enter you jwt token",
-                    In = Microsoft.OpenApi.Models.ParameterLocation.Header,
-                    Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
                     BearerFormat = "JWT",
                     Scheme = JwtBearerDefaults.AuthenticationScheme
                 });
 
 
-                op.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+                op.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     {
                         new OpenApiSecurityScheme
@@ -76,20 +76,21 @@ namespace Finance.Api
                 op.DefaultForbidScheme =
                 op.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 
-            })
-                .AddJwtBearer(op =>
-                    {
-                        op.TokenValidationParameters = new TokenValidationParameters
-                        {
-                            ValidateIssuer = true,
-                            ValidIssuer = builder.Configuration["JWT:Issuer"],
-                            ValidateAudience = true,
-                            ValidAudience = builder.Configuration["JWT:Audience"],
-                            ValidateIssuerSigningKey = true,
-                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"])),
-                            ValidateLifetime = true,
-                        };
-                    });
+            }).AddJwtBearer(op =>
+            {
+                op.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidIssuer = builder.Configuration["JWT:Issuer"],
+                    ValidateAudience = true,
+                    ValidAudience = builder.Configuration["JWT:Audience"],
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"])),
+                    ValidateLifetime = true,
+                };
+                // op.MapInboundClaims = true;
+            });
+
 
             builder.Services.AddControllers().AddNewtonsoftJson(op =>
             {

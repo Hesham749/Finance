@@ -11,14 +11,12 @@ namespace Finance.Api.Controllers
     [Authorize]
     public class PortfolioController : ControllerBase
     {
-        private readonly UserManager<AppUser> _userManager;
         private readonly IStockRepository _stockRepo;
         private readonly IPortfolioRepository _portfolioRepo;
 
 
         public PortfolioController(UserManager<AppUser> userManager, IStockRepository stockRepo, IPortfolioRepository portfolioRepo)
         {
-            _userManager = userManager;
             _stockRepo = stockRepo;
             _portfolioRepo = portfolioRepo;
         }
